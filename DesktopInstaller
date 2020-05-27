@@ -1,0 +1,101 @@
+#!/usr/bin/env bash
+
+# 変数
+
+view="[$0]:"
+
+
+# GUI関数
+
+# error_window
+error_window () {
+    zenity \
+    --error \
+    --width 350 \
+    --title $0 \
+    --text "${1}"
+    exit 0
+}
+
+#info_window
+info_window() {
+    zenity \
+    --info \
+    --width 350 \
+    --title $0 \
+    --text "${1}"
+    exit 0
+}
+
+# デスクトップ環境選択ウィンドウ
+de_select() {
+    zenity \
+    
+}
+
+
+# CUI関数
+
+# エラー出力関数
+error_print () {
+    printf "${view} \033[31m${1}\033[m\n"
+}
+
+# OK出力関数
+ok_print () {
+    printf "${view} \033[32m${1}\033[m\n"
+}
+
+# 処理の呼び出し
+call () {
+    bash $0
+}
+
+
+
+# ----------------------------------------------------------- #
+
+# パスワード入力のGUI化（pkexec）
+if [ ! $UID = 0 ]; then
+    pkexec env DISPLAY=$DISPLAY XAUTHORITY=$XAUTHORITY $0
+    exit 0
+fi
+
+# 現在のデスクトップ環境を取得
+
+# メインメニュー
+select=$(
+    zenity \
+    --title $0 \
+    --info \
+    --text "何を実行しますか?" \
+    --ok-label="終了" \
+    --extra-button="インストール" \
+    --extra-button="アンインストール" \
+
+)
+
+mainmenu=$?
+
+case $mainmenu in
+    0)
+        exit 0
+    ;;
+    *)
+        :
+    ;;
+esac
+
+case $select in
+    "インストール")
+        #デスクトップ環境選択ウィンドウ
+    ;;
+    "アンインストール")
+        #デスクトップ環境選択ウィンドウ
+    ;;
+    *)
+        error_print "Error. Exception occured."
+    ;;
+esac
+
+call
