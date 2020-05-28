@@ -46,6 +46,26 @@ de_select() {
 
 }
 
+
+# CUI関数
+
+# エラー出力関数
+error_print () {
+    printf "${view} \033[31m${1}\033[m\n"
+    error_window "${1}"
+}
+
+# OK出力関数
+ok_print () {
+    printf "${view} \033[32m${1}\033[m\n"
+}
+
+# 処理の呼び出し
+call () {
+    bash $0
+}
+
+
 # インストール/アンインストール処理
 install_proc () {
     # $1 -> ["install"] or ["uninstall"]
@@ -93,27 +113,6 @@ install_proc () {
     fi
 }
 
-
-# CUI関数
-
-# エラー出力関数
-error_print () {
-    printf "${view} \033[31m${1}\033[m\n"
-    error_window "${1}"
-}
-
-# OK出力関数
-ok_print () {
-    printf "${view} \033[32m${1}\033[m\n"
-}
-
-# 処理の呼び出し
-call () {
-    bash $0
-}
-
-
-
 # ----------------------------------------------------------- #
 
 # パスワード入力のGUI化（pkexec）
@@ -157,7 +156,8 @@ case $select in
             0)
                 case $install in
                     GNOME)
-                        install_proc "install" "${install}" ":" # 3つ目の引数が環境のインストールコマンド（＆リポジトリ登録コマンド）です
+                        # 3つ目の引数が環境のインストールコマンド（＆リポジトリ登録コマンド）です
+                        install_proc "install" "${install}" ":"
                     ;;
                     KDE)
                         install_proc "install" "${install}" ":"
@@ -199,7 +199,8 @@ case $select in
             0)
                 case $uninstall in
                     GNOME)
-                        install_proc "uninstall" "${uninstall}" ":" # 3つ目の引数が環境のアンインストールコマンドです
+                        # 3つ目の引数が環境のアンインストールコマンドです
+                        install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     KDE)
                         install_proc "uninstall" "${uninstall}" ":"
@@ -233,7 +234,7 @@ case $select in
         esac
     ;;
     *)
-        error_print "Error. Exception occured."
+        error_print "例外が発生しました。"
     ;;
 esac
 
