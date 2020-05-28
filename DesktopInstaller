@@ -46,12 +46,60 @@ de_select() {
 
 }
 
+# インストール/アンインストール処理
+install_proc () {
+    # $1 -> ["install"] or ["uninstall"]
+    # $2 -> [DE Name]
+    # $3 -> [install/uninstall cmd]
+    if [ $1 = "install" ]; then
+        ques_window "${2}をインストールしますか？"
+
+        question=$?
+        case $question in
+            0)
+                # インストール処理
+                $3 || error_print "インストールに失敗しました。"
+                sudo apt-get update -y
+                sudo apt-get upgrade -y
+                ok_print "インストール処理が完了しました。"
+                info_window "インストールが完了しました。"
+            ;;
+            *)
+                :
+            ;;
+        esac
+
+
+    elif [ $1 = "uninstall" ]; then
+        ques_window "${2}をアンインストールしますか？"
+
+        question=$?
+        case $question in
+            0)
+                # アンインストール処理
+                $3 || error_print "アンインストールに失敗しました。"
+                sudo apt-get autoremove -y
+                ok_print "アンインストール処理が完了しました。"
+                info_window "アンインストールが完了しました。"
+            ;;
+            *)
+                :
+            ;;
+        esac
+
+
+    else
+        error_print "例外が発生しました。"
+    fi
+}
+
 
 # CUI関数
 
 # エラー出力関数
 error_print () {
     printf "${view} \033[31m${1}\033[m\n"
+    error_window "${1}"
 }
 
 # OK出力関数
@@ -112,56 +160,40 @@ case $select in
             *)
                 case $install in
                     GNOME)
-                        ques_window "GNOMEをインストールしますか？"
-
-                        question=$?
-                        case $question in
-                            0)
-                                :
-                            ;;
-                            *)
-                                # インストール処理
-                            ;;
+                        install_proc "install" "GNOME" ":"
 
                     ;;
                     KDE)
+                        
 
 
                     ;;
                     Cinnamon)
+                        
 
 
                     ;;
                     MATE)
+                        
 
 
                     ;;
                     Xfce)
+                        
 
 
                     ;;
                     LXDE)
+                        
 
                     ;;
                     LXQt)
 
 
+
                     ;;
                     DDE)
-                    ques_window "DDEをインストールしますか？"
 
-                        question=$?
-                        case $question in
-                            0)
-                                :
-                            ;;
-                            *)
-                                # インストール処理
-                                sudo add-apt-repository ppa:leaeasy/dde -y
-                                sudo apt-get -y update
-                                sudo apt-get -y upgrade
-                                sudo apt-get install -y dde dde-file-manager deepin-gtk-theme
-                            ;;
 
                     ;;
                     *)
@@ -176,6 +208,60 @@ case $select in
     ;;
     "アンインストール")
         #デスクトップ環境選択ウィンドウ
+        uninstall=$(de_select)
+
+        menu=$?
+        case $mainmenu in
+            0)
+                :
+            ;;
+            *)
+                case $uninstall in
+                    GNOME)
+                        
+
+                    ;;
+                    KDE)
+                        
+
+
+                    ;;
+                    Cinnamon)
+                        
+
+
+                    ;;
+                    MATE)
+                        
+
+
+                    ;;
+                    Xfce)
+                        
+
+
+                    ;;
+                    LXDE)
+                        
+
+                    ;;
+                    LXQt)
+
+
+
+                    ;;
+                    DDE)
+
+
+                    ;;
+                    *)
+                        error_print "Error. Exception occured."
+
+                    ;;
+                esac
+
+            ;;
+        esac
     ;;
     *)
         error_print "Error. Exception occured."
