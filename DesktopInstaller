@@ -151,115 +151,84 @@ case $select in
     "インストール")
         #デスクトップ環境選択ウィンドウ
         install=$(de_select)
+        installmenu=$?
 
-        menu=$?
-        case $mainmenu in
+        case $installmenu in
             0)
-                :
-            ;;
-            *)
                 case $install in
                     GNOME)
-                        install_proc "install" "GNOME" ":"
-
+                        install_proc "install" "${install}" ":" # 3つ目の引数が環境のインストールコマンド（＆リポジトリ登録コマンド）です
                     ;;
                     KDE)
-                        
-
-
+                        install_proc "install" "${install}" ":"
                     ;;
                     Cinnamon)
-                        
-
-
+                        install_proc "install" "${install}" ":"
                     ;;
                     MATE)
-                        
-
-
+                        install_proc "install" "${install}" ":"
                     ;;
                     Xfce)
-                        
-
-
+                        install_proc "install" "${install}" ":"
                     ;;
                     LXDE)
-                        
-
+                        install_proc "install" "${install}" ":"
                     ;;
                     LXQt)
-
-
-
+                        install_proc "install" "${install}" ":"
                     ;;
                     DDE)
-
-
+                        install_proc "install" "${install}" ":"
                     ;;
                     *)
-                        error_print "Error. Exception occured."
-
+                        error_window "デスクトップ環境を選択してください。"
                     ;;
                 esac
-
+            ;;
+            1)
+                :
             ;;
         esac
-
     ;;
     "アンインストール")
         #デスクトップ環境選択ウィンドウ
         uninstall=$(de_select)
+        uninstallmenu=$?
 
-        menu=$?
-        case $mainmenu in
+        case $uninstallmenu in
             0)
-                :
-            ;;
-            *)
                 case $uninstall in
                     GNOME)
-                        
-
+                        install_proc "uninstall" "${uninstall}" ":" # 3つ目の引数が環境のアンインストールコマンドです
                     ;;
                     KDE)
-                        
-
-
+                        install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     Cinnamon)
-                        
-
-
+                        install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     MATE)
-                        
-
-
+                        install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     Xfce)
-                        
-
-
+                        install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     LXDE)
-                        
-
+                        install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     LXQt)
-
-
-
+                        install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     DDE)
-
-
+                        install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     *)
-                        error_print "Error. Exception occured."
-
+                        error_window "デスクトップ環境を選択してください。"
                     ;;
                 esac
-
+            ;;
+            1)
+                :
             ;;
         esac
     ;;
