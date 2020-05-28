@@ -27,10 +27,23 @@ info_window() {
     exit 0
 }
 
+#ques_window
+ques_window() {
+    zenity \
+    --question \
+    --width 350 \
+    --title $0 \
+    --text "${1}"
+}
+
 # デスクトップ環境選択ウィンドウ
 de_select() {
     zenity \
-    
+    --list \
+    --title $0 \
+    --text "デスクトップ環境を選択..." \
+    --column "デスクトップ環境" GNOME KDE Cinnamon MATE Xfce LXDE LXQt DDE
+
 }
 
 
@@ -89,6 +102,77 @@ esac
 case $select in
     "インストール")
         #デスクトップ環境選択ウィンドウ
+        install=$(de_select)
+
+        menu=$?
+        case $mainmenu in
+            0)
+                :
+            ;;
+            *)
+                case $install in
+                    GNOME)
+                        ques_window "GNOMEをインストールしますか？"
+
+                        question=$?
+                        case $question in
+                            0)
+                                :
+                            ;;
+                            *)
+                                # インストール処理
+                            ;;
+
+                    ;;
+                    KDE)
+
+
+                    ;;
+                    Cinnamon)
+
+
+                    ;;
+                    MATE)
+
+
+                    ;;
+                    Xfce)
+
+
+                    ;;
+                    LXDE)
+
+                    ;;
+                    LXQt)
+
+
+                    ;;
+                    DDE)
+                    ques_window "DDEをインストールしますか？"
+
+                        question=$?
+                        case $question in
+                            0)
+                                :
+                            ;;
+                            *)
+                                # インストール処理
+                                sudo add-apt-repository ppa:leaeasy/dde -y
+                                sudo apt-get -y update
+                                sudo apt-get -y upgrade
+                                sudo apt-get install -y dde dde-file-manager deepin-gtk-theme
+                            ;;
+
+                    ;;
+                    *)
+                        error_print "Error. Exception occured."
+
+                    ;;
+                esac
+
+            ;;
+        esac
+
     ;;
     "アンインストール")
         #デスクトップ環境選択ウィンドウ
