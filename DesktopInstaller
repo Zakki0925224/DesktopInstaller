@@ -86,7 +86,7 @@ install_proc () {
             0)
                 # インストール処理
                 notification "インストール処理の進行中です。"
-                $3 || error_print "インストールに失敗しました。"
+                eval ${3} || error_print "インストールに失敗しました。"
                 ok_print "インストール処理が完了しました。"
                 info_window "インストールが完了しました。"
             ;;
@@ -104,8 +104,8 @@ install_proc () {
             0)
                 # アンインストール処理
                 notification "アンインストール処理の進行中です"
-                $3 || error_print "アンインストールに失敗しました。"
-                sudo apt-get autoremove -y
+                eval ${3} || error_print "アンインストールに失敗しました。"
+                sudo apt-get -y autoremove
                 ok_print "アンインストール処理が完了しました。"
                 info_window "アンインストールが完了しました。"
             ;;
@@ -163,7 +163,7 @@ case $select in
             0)
                 case $install in
                     GNOME)
-                        # 3つ目の引数が環境のインストールコマンド（＆リポジトリ登録コマンド）です
+                        # 3つ目の引数が環境のインストールコマンドです
                         install_proc "install" "${install}" ":"
                     ;;
                     KDE)
@@ -185,7 +185,7 @@ case $select in
                         install_proc "install" "${install}" ":"
                     ;;
                     DDE)
-                        install_proc "install" "${install}" "sudo add-apt-repository ppa:leaeasy/dde -y && sudo apt update -y && sudo apt install -y dde dde-file-manager deepin-gtk-theme"
+                        install_proc "install" "${install}" "sudo add-apt-repository -y ppa:leaeasy/dde && sudo apt-get -y update && sudo apt-get -y install dde dde-file-manager deepin-gtk-theme"
                     ;;
                     *)
                         error_window "デスクトップ環境を選択してください。"
@@ -228,7 +228,7 @@ case $select in
                         install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     DDE)
-                        install_proc "uninstall" "${uninstall}" "sudo apt purge -y dde dde-file-manager deepin-gtk-theme"
+                        install_proc "uninstall" "${uninstall}" "sudo apt-get purge -y dde dde-file-manager deepin-gtk-theme"
                     ;;
                     *)
                         error_window "デスクトップ環境を選択してください。"
