@@ -36,6 +36,13 @@ ques_window() {
     --text "${1}"
 }
 
+# notification
+notification() {
+    zenity \
+    --notification \
+    --text "${1}"
+}
+
 # デスクトップ環境選択ウィンドウ
 de_select() {
     zenity \
@@ -78,9 +85,8 @@ install_proc () {
         case $question in
             0)
                 # インストール処理
+                notification "インストール処理の進行中です。"
                 $3 || error_print "インストールに失敗しました。"
-                sudo apt-get update -y
-                sudo apt-get upgrade -y
                 ok_print "インストール処理が完了しました。"
                 info_window "インストールが完了しました。"
             ;;
@@ -97,6 +103,7 @@ install_proc () {
         case $question in
             0)
                 # アンインストール処理
+                notification "アンインストール処理の進行中です"
                 $3 || error_print "アンインストールに失敗しました。"
                 sudo apt-get autoremove -y
                 ok_print "アンインストール処理が完了しました。"
@@ -178,7 +185,7 @@ case $select in
                         install_proc "install" "${install}" ":"
                     ;;
                     DDE)
-                        install_proc "install" "${install}" ":"
+                        install_proc "install" "${install}" "sudo add-apt-repository ppa:leaeasy/dde -y && sudo apt update -y && sudo apt install -y dde dde-file-manager deepin-gtk-theme"
                     ;;
                     *)
                         error_window "デスクトップ環境を選択してください。"
@@ -221,7 +228,7 @@ case $select in
                         install_proc "uninstall" "${uninstall}" ":"
                     ;;
                     DDE)
-                        install_proc "uninstall" "${uninstall}" ":"
+                        install_proc "uninstall" "${uninstall}" "sudo apt purge -y dde dde-file-manager deepin-gtk-theme"
                     ;;
                     *)
                         error_window "デスクトップ環境を選択してください。"
