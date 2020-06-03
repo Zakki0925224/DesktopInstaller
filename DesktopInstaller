@@ -87,6 +87,8 @@ install_proc () {
                 # インストール処理
                 notification "インストール処理の進行中です。"
                 eval ${3} || error_print "インストールに失敗しました。"
+                sudo apt-get -y update
+                sudo apt-get -y upgrade
                 ok_print "インストール処理が完了しました。"
                 info_window "インストールが完了しました。"
             ;;
@@ -164,28 +166,28 @@ case $select in
                 case $install in
                     GNOME)
                         # 3つ目の引数が環境のインストールコマンドです
-                        install_proc "install" "${install}" ":"
+                        install_proc "install" "${install}" "sudo apt-get -y install gnome-session"
                     ;;
                     KDE)
-                        install_proc "install" "${install}" ":"
+                        install_proc "install" "${install}" "sudo apt-get -y install kde-standard"
                     ;;
                     Cinnamon)
-                        install_proc "install" "${install}" ":"
+                        install_proc "install" "${install}" "sudo apt-get -y install cinnamon"
                     ;;
                     MATE)
-                        install_proc "install" "${install}" ":"
+                        install_proc "install" "${install}" "sudo apt-get -y install ubuntu-mate-desktop"
                     ;;
                     Xfce)
-                        install_proc "install" "${install}" ":"
+                        install_proc "install" "${install}" "sudo apt-get -y install xfce4 xfce4-session xfce4-terminal"
                     ;;
                     LXDE)
-                        install_proc "install" "${install}" ":"
+                        install_proc "install" "${install}" "sudo apt-get -y install lxde lxde-common lxsession-logout"
                     ;;
                     LXQt)
-                        install_proc "install" "${install}" ":"
+                        install_proc "install" "${install}" "sudo apt-get -y install lxqt"
                     ;;
                     DDE)
-                        install_proc "install" "${install}" "sudo add-apt-repository -y ppa:leaeasy/dde && sudo apt-get -y update && sudo apt-get -y install dde dde-file-manager deepin-gtk-theme"
+                        install_proc "install" "${install}" "sudo add-apt-repository -y ppa:leaeasy/dde && sudo apt-get -y update && sudo apt-get -y upgrade && sudo apt-get -y install dde dde-file-manager deepin-gtk-theme"
                     ;;
                     *)
                         error_window "デスクトップ環境を選択してください。"
@@ -207,28 +209,28 @@ case $select in
                 case $uninstall in
                     GNOME)
                         # 3つ目の引数が環境のアンインストールコマンドです
-                        install_proc "uninstall" "${uninstall}" ":"
+                        install_proc "uninstall" "${uninstall}" "sudo apt-get -y purge gnome-session"
                     ;;
                     KDE)
-                        install_proc "uninstall" "${uninstall}" ":"
+                        install_proc "uninstall" "${uninstall}" "sudo apt-get -y purge kde-standard"
                     ;;
                     Cinnamon)
-                        install_proc "uninstall" "${uninstall}" ":"
+                        install_proc "uninstall" "${uninstall}" "sudo apt-get -y purge cinnamon"
                     ;;
                     MATE)
-                        install_proc "uninstall" "${uninstall}" ":"
+                        install_proc "uninstall" "${uninstall}" "sudo apt-get -y purge ubuntu-mate-desktop"
                     ;;
                     Xfce)
-                        install_proc "uninstall" "${uninstall}" ":"
+                        install_proc "uninstall" "${uninstall}" "sudo apt-get -y purge xfce4 xfce4-session xfce4-terminal"
                     ;;
                     LXDE)
-                        install_proc "uninstall" "${uninstall}" ":"
+                        install_proc "uninstall" "${uninstall}" "sudo apt-get -y purge lxde lxde-common lxsession-logout"
                     ;;
                     LXQt)
-                        install_proc "uninstall" "${uninstall}" ":"
+                        install_proc "uninstall" "${uninstall}" "sudo apt-get -y purge lxqt"
                     ;;
                     DDE)
-                        install_proc "uninstall" "${uninstall}" "sudo apt-get purge -y dde dde-file-manager deepin-gtk-theme"
+                        install_proc "uninstall" "${uninstall}" "sudo apt-get -y purge dde dde-file-manager deepin-gtk-theme"
                     ;;
                     *)
                         error_window "デスクトップ環境を選択してください。"
