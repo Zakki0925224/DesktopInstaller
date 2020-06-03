@@ -2,8 +2,6 @@
 
 Linuxデスクトップ環境のインストール/アンインストールを簡易化するスクリプトです。一部[DistroNameChanger](https://github.com/Zakki0925224/DistroNameChanger)からコードの流用があります。
 
-未完成につき、インストール/アンインストール処理が一部未実装です。（処理可能デスクトップ環境：DDE）
-
 # 使い方
 ## インストール
 ```bash
